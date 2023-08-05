@@ -1,19 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
-    "baseUrl": "./",
-    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "eslint-config": [
+        "eslintrc.js"
       ]
     },
+    "esModuleInterop": true,
     "lib": [
       "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
+      "dom"
     ]
-  }
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*"
+  ]
 }
