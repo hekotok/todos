@@ -124,33 +124,6 @@ module.exports = {
             [ 'template', 'render' ],
             'renderError'
         ] } ],
-        'vue/multi-word-component-names': [ 'error', { 'ignores': [
-            'Dashboards',
-            'Transliteration',
-            'Info',
-            'Alert',
-            'Any',
-            'Dictory',
-            'Ner',
-            'Subscribe',
-            'Settings',
-            'Chronomer',
-            'More',
-            'Post',
-            'Search',
-            'Tags',
-            'Rate',
-            'Comment',
-            'Loader',
-            'Error400',
-            'Error404',
-            'Error406',
-            'Error417',
-            'Error418',
-            'Error500',
-            'Error502',
-            'Error504'
-        ] } ],
 
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn'
