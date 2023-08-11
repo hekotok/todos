@@ -1,0 +1,14 @@
+$bg-color: #252422;
+$primary-color: #f24b4b;
+$secondary-color: #f2f0d8;
+
+@mixin dimensions($width, $height) {
+    width: $width;
+    height: $height
+}
+
+@mixin flex-position($horizontal-position, $vertical-position) {
+    display: flex;
+    justify-content: $horizontal-position;
+    align-items: $vertical-position
+}

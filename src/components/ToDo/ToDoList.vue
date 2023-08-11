@@ -8,9 +8,9 @@
     <main>
         <section>
             <input />
-            <button type="button" @click="isShowModal = true">
+            <action-button @click="isShowModal = true">
                 add Todo
-            </button>
+            </action-button>
         </section>
         <section>
             <to-do v-for="todo in filterToDos"/>

@@ -1,5 +1,15 @@
+@font-face {
+    font-family: 'zlusa';
+    src: url('../assets/fonts/zlusa_font.ttf') format('truetype'), 
+        local('../assets/fonts/zlusa_font')
+}
+
+* {
+    font-family: 'zlusa';
+}
+
 main {
-    background: #333;
+    background: #252422;
     width: 100vw;
     height: 100vh;
 }
