@@ -44,7 +44,7 @@ export default {
     //eslint-disable-next-line
     setup({ modelValue, isBlack }, { emit }) {
         const inputValue = ref(modelValue)
-        const dinamicColor = ref(isBlack ? '#252422' : '#f2f0d8')
+        const dinamicColor = isBlack ? '#252422' : '#f2f0d8'
 
         watch(
             () => modelValue,

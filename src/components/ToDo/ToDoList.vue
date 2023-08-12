@@ -18,8 +18,8 @@
                     maxlength="25"
                 />
             </transition>
-            <action-button @click="isShowModal = true">
-                Add Todo
+            <action-button @click="isShowModal = true" :class="{'todo--first': !todos.length}">
+                {{ todos.length ? 'Add to do' : 'Add your first to do' }}
             </action-button>
         </section>
         <section class="todos-container">
@@ -75,6 +75,11 @@ section {
     }
 }
 
+.todo--first {
+    transition: transform .5s 1s !important;
+    transform: translateY(50vh) scale(2) !important;
+}
+
 .todos-container {
     display: flex;
     flex-direction: column;
@@ -118,11 +123,11 @@ section {
 
 @keyframes input-fall {
     0% {
-        transform: translateY(-100px) translatex(-30px)
+        transform: translateY(-100px) translateX(-30px)
     }
     50% {
         transform-origin: left bottom;
-        transform: rotate(10deg) translateY(-100px) translatex(-30px)
+        transform: rotate(10deg) translateY(-100px) translateX(-30px)
     }
     100% {
         transform: translateY(0)
