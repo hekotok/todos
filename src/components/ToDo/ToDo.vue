@@ -26,7 +26,10 @@ export default {
 
         const delTodo = () => {
             isShowTodo.value = false
-            setTimeout(() => emit('del-todo'), 500)
+            setTimeout(() => {
+                emit('del-todo')
+                isShowTodo.value = true
+            }, 500)
         }
 
         return { isShowTodo, delTodo }
