@@ -1,7 +1,8 @@
 <template lang="en">
-    <transition name="todo-slide" mode="out">
+    <transition name="todo-slide" mode="in-out">
         <div class="todo" v-if="isShowTodo">
-            <h1><strong>{{todo}}</strong></h1>
+            <h1><strong>{{ todo }}</strong></h1>
+            <button @click="delTodo" type="button" class="trash-can"></button>
         </div>
     </transition>
 </template>
@@ -15,13 +16,20 @@ export default {
         required: true
     } },
 
-    setup() {
+    emits: [ 'del-todo' ],
+
+    setup(_, { emit }) {
         const isShowTodo = ref(false)
 
         onMounted(() => isShowTodo.value = true)
         onBeforeUnmount(() => isShowTodo.value = false)
 
-        return { isShowTodo }
+        const delTodo = () => {
+            isShowTodo.value = false
+            setTimeout(() => emit('del-todo'), 500)
+        }
+
+        return { isShowTodo, delTodo }
     }
 }
 </script>
@@ -36,6 +44,7 @@ h1 {
 .todo {
     @include flex-position(center, center);
 
+    position: relative;
     padding: 10px;
     background: $secondary-color;
     width: 70%;
@@ -45,7 +54,7 @@ h1 {
 
 .todo-slide {
     &-enter-active, &-leave-active {
-        transition: transform .7s ease-out
+        transition: transform .5s ease-in-out
     }
 
     &-enter-from {
@@ -54,6 +63,26 @@ h1 {
 
     &-leave-to {
         transform: translateX(9999px)
+    }
+}
+
+.trash-can {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: url(@/assets/img/trash_can.svg) no-repeat center/contain;
+    width: 28px;
+    height: 28px;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        transform: rotate(180deg) scale(1.2);
+        background: url(@/assets/img/opened_trash_can.svg) no-repeat center/contain;
+    }
+
+    &:active {
+        transform: rotate(180deg) scale(1.5);
     }
 }
 </style>

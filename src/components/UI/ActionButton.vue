@@ -21,6 +21,7 @@ button {
     border: 2px solid $primary-color;
     transition: all .4s ease-in-out;
     overflow: hidden;
+    cursor: pointer;
 
     &:hover {
         transform: translateY(-10px);

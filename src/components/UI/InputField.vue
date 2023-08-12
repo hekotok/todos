@@ -1,16 +1,13 @@
 <template>
     <div class="form-group field">
         <input
-            id="input-field"
             :value="modelValue"
-            :type="type"
             class="form-field"
+            name="input-field"
             :placeholder="placeholder"
             :aria-placeholder="placeholder"
-            spellcheck="true"
-            name="input-field"
-            :maxlength="`${maxlength}`"
             required
+            v-bind="$attrs"
             @input="updateValue"
         />
         <label for="input-field" class="form-label">
@@ -36,19 +33,9 @@ export default {
             default: ''
         },
 
-        maxlength: {
-            type: Number,
-            default: 0
-        },
-
         isBlack: {
             type: Boolean,
             default: false
-        },
-
-        type: {
-            type: String,
-            default: 'text'
         }
     },
 

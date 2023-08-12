@@ -9,17 +9,26 @@
 
     <main>
         <section>
-            <input-field
-                v-model="todoTitle"
-                tabindex="0"
-                placeholder="Find a todo"
-            />
+            <transition name='input-field-fall' mode="in-out">
+                <input-field
+                    v-if="todos.length"
+                    v-model="todoSearch"
+                    tabindex="0"
+                    placeholder="Enter to do"
+                    maxlength="25"
+                />
+            </transition>
             <action-button @click="isShowModal = true">
                 Add Todo
             </action-button>
         </section>
         <section class="todos-container">
-            <to-do v-for="todo in filterTodos" :todo="todo"/>
+            <to-do
+                v-for="(todo, idx) in filterTodos"
+                :key="`todo-${idx}`"
+                :todo="todo"
+                @del-todo="todos.splice(idx, 1)"
+            />
         </section>
     </main>
 </template>
@@ -37,11 +46,17 @@ export default {
 
     setup() {
         const isShowModal = ref(false)
+        const todoSearch = ref('')
         const todos = reactive([])
 
-        const filterTodos = computed(() => todos)
+        const filterTodos = computed(() => {
+            if (!todoSearch.value.length)
+                return todos
 
-        return { todos, isShowModal, filterTodos }
+            return todos.filter(todo => todo.toLowerCase().includes(todoSearch.value.toLowerCase()))
+        })
+
+        return { todos, isShowModal, todoSearch, filterTodos }
     }
 }
 </script>
@@ -66,11 +81,13 @@ section {
     gap: 20px;
 }
 
-.modal-slide {
+.modal-slide, .todo-slide {
     &-enter-active, &-leave-active {
         transition: transform .5s ease-in-out
     }
+}
 
+.modal-slide {
     &-enter-from {
         transform: translateY(-100%)
     }
@@ -81,16 +98,34 @@ section {
 }
 
 .todo-slide {
-    &-enter-active, &-leave-active {
-        transition: transform .5s ease-in-out
-    }
-
     &-enter-from {
         transform: translateX(-100%)
     }
 
     &-leave-to {
         transform: translateX(100%)
+    }
+}
+
+.input-field-fall {
+    &-enter-active {
+        animation: input-fall 1s;
+    }
+    &-leave-active {
+        animation: input-fall 1s reverse;
+    }
+}
+
+@keyframes input-fall {
+    0% {
+        transform: translateY(-100px) translatex(-30px)
+    }
+    50% {
+        transform-origin: left bottom;
+        transform: rotate(10deg) translateY(-100px) translatex(-30px)
+    }
+    100% {
+        transform: translateY(0)
     }
 }
 </style>

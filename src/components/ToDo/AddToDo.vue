@@ -5,7 +5,8 @@
                 v-model="todoTitle"
                 tabindex="0"
                 placeholder="Enter to do"
-                maxlength="30"
+                maxlength="20"
+                :class="{'input-todo--error': isErrorInput}"
                 isBlack
             />
             <action-button tabindex="1" @click="addTodo">
@@ -23,10 +24,17 @@ export default {
 
     setup(_, { emit }) {
         const todoTitle = ref('')
+        const isErrorInput = ref(false)
 
         const addTodo = () => {
-            emit('add-todo', todoTitle.value)
-            emit('close')
+            if (!todoTitle.value) {
+                isErrorInput.value = true
+                setTimeout(() => isErrorInput.value = false, 500)
+            }
+            else {
+                emit('add-todo', todoTitle.value)
+                emit('close')
+            }
         }
 
         const handleKeyDown = event => event.key === 'Escape' && emit('close')
@@ -34,7 +42,7 @@ export default {
         onMounted(() => window.addEventListener('keydown', handleKeyDown))
         onBeforeUnmount(() => window.removeEventListener('keydown', handleKeyDown))
 
-        return { todoTitle, addTodo }
+        return { todoTitle, isErrorInput, addTodo }
     }
 }
 </script>
@@ -64,6 +72,25 @@ export default {
 
     &:hover, &:focus {
         box-shadow: $primary-color 0 0 50px;
+    }
+
+    .input-todo--error {
+        animation: shake-error .5s ease-in-out;
+    }
+}
+
+@keyframes shake-error {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    75% {
+        transform: translateX(-10px);
     }
 }
 </style>
