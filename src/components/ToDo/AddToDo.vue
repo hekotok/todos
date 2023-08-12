@@ -1,28 +1,53 @@
 <template lang="en">
-    <div class="modal-container">
-        <div class="modal">
-            <input-field />
-            <action-button>Close</action-button>
+    <div class="modal-container" @click="$emit('close')">
+        <div class="modal" @click.stop>
+            <input-field
+                v-model="todoTitle"
+                tabindex="0"
+                placeholder="Enter to do"
+                maxlength="30"
+                isBlack
+            />
+            <action-button tabindex="1" @click="addTodo">
+                Add to do
+            </action-button>
         </div>
     </div>
 </template>
 
 <script>
-export default {
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
+export default {
+    emits: [ 'close', 'add-todo' ],
+
+    setup(_, { emit }) {
+        const todoTitle = ref('')
+
+        const addTodo = () => {
+            emit('add-todo', todoTitle.value)
+            emit('close')
+        }
+
+        const handleKeyDown = event => event.key === 'Escape' && emit('close')
+
+        onMounted(() => window.addEventListener('keydown', handleKeyDown))
+        onBeforeUnmount(() => window.removeEventListener('keydown', handleKeyDown))
+
+        return { todoTitle, addTodo }
+    }
 }
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/_variables.scss';
+@import '@/styles/variables.scss';
 
 .modal-container {
     @include flex-position(center, center);
     @include dimensions(100%, 100%);
 
     position: fixed;
-    background: $bg-color;
-    opacity: .5;
+    backdrop-filter: blur(2px);
     z-index: 1000
 }
 

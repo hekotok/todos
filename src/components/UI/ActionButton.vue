@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/_variables.scss';
+@import '@/styles/variables.scss';
 
 button {
     font-size: 22pt;
@@ -36,11 +36,11 @@ button {
         width: 100%;
         background-color: $primary-color;
         z-index: -1;
-        transition: left .1s
+        transition: left .1s ease-out
     }
 
     &:active::before {
-        left: 0
+        left: 0;
     }
 }
 </style>

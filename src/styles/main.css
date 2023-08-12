@@ -8,8 +8,10 @@
     font-family: 'zlusa';
 }
 
-main {
+html {
     background: #252422;
-    width: 100vw;
-    height: 100vh;
+}
+
+main {
+    padding: 30px;
 }

@@ -1,31 +1,139 @@
 <template>
-    <div>
+    <div class="form-group field">
         <input
-            v-bind="$attrs"
-            class="input-field"
+            id="input-field"
+            :value="modelValue"
+            :type="type"
+            class="form-field"
             :placeholder="placeholder"
+            :aria-placeholder="placeholder"
+            spellcheck="true"
+            name="input-field"
+            :maxlength="`${maxlength}`"
+            required
+            @input="updateValue"
         />
+        <label for="input-field" class="form-label">
+            {{ placeholder }}
+        </label>
     </div>
 </template>
 
 <script>
+import { ref, watch } from 'vue'
+
 export default {
-    name: 'InputFiels',
+    name: 'InputField',
 
     props: {
+        modelValue: {
+            type: String,
+            required: true
+        },
+
         placeholder: {
             type: String,
             default: ''
+        },
+
+        maxlength: {
+            type: Number,
+            default: 0
+        },
+
+        isBlack: {
+            type: Boolean,
+            default: false
+        },
+
+        type: {
+            type: String,
+            default: 'text'
+        }
+    },
+
+    emits: [ 'update:modelValue' ],
+
+    //eslint-disable-next-line
+    setup({ modelValue, isBlack }, { emit }) {
+        const inputValue = ref(modelValue)
+        const dinamicColor = ref(isBlack ? '#252422' : '#f2f0d8')
+
+        watch(
+            () => modelValue,
+            newValue => inputValue.value = newValue
+        )
+
+        const updateValue = event => {
+            inputValue.value = event.target.value
+            emit('update:modelValue', inputValue.value)
+        }
+
+        return {
+            inputValue,
+            dinamicColor,
+            updateValue
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/_variables.scss';
+@import '@/styles/variables.scss';
 
-div {
-    border: 1px solid $primary-color;
-    padding: 10px;
+.form-group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 50%;
+}
+
+.form-field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid gray;
+    outline: 0;
+    font-size: 1.4rem;
+    color: v-bind(dinamicColor);
+    padding: 7px 0;
+    background: transparent;
+
+    &::placeholder {
+        color: transparent;
+    }
+
+    &:placeholder-shown ~ .form-label {
+        font-size: 1.4rem;
+        cursor: text;
+        top: 20px;
+    }
+
+    &:focus {
+        ~ .form-label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: .2s;
+            font-size: 1rem;
+            color: $primary-color;
+            font-weight: 700;
+        }
+
+        padding-bottom: 6px;
+        font-weight: 700;
+        border-width: 3px;
+        border-image: linear-gradient(to right, $primary-color, v-bind(dinamicColor));
+        border-image-slice: 1;
+    }
+}
+
+.form-label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: v-bind(dinamicColor);
 }
 </style>

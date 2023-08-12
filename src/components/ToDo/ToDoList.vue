@@ -1,25 +1,31 @@
 <template lang="en">
-    <add-to-do
-        v-if="isShowModal"
-        @close="isShowModal = false"
-        @add-to-do="todo => todos.value.push(todo)"
-    />
+    <transition name="modal-slide" mode="in-out">
+        <add-to-do
+            v-if="isShowModal"
+            @close="isShowModal = false"
+            @add-todo="todo => todos.push(todo)"
+        />
+    </transition>
 
     <main>
         <section>
-            <input />
+            <input-field
+                v-model="todoTitle"
+                tabindex="0"
+                placeholder="Find a todo"
+            />
             <action-button @click="isShowModal = true">
-                add Todo
+                Add Todo
             </action-button>
         </section>
-        <section>
-            <to-do v-for="todo in filterToDos"/>
+        <section class="todos-container">
+            <to-do v-for="todo in filterTodos" :todo="todo"/>
         </section>
     </main>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 import ToDo from './ToDo'
 import AddToDo from './AddToDo'
@@ -31,15 +37,60 @@ export default {
 
     setup() {
         const isShowModal = ref(false)
-        const todos = ref([])
+        const todos = reactive([])
 
-        const filterToDos = computed(() => todos)
+        const filterTodos = computed(() => todos)
 
-        return { todos, isShowModal, filterToDos }
+        return { todos, isShowModal, filterTodos }
     }
 }
 </script>
 
 <style lang="scss">
+@import '@/styles/variables.scss';
+main {
+    gap: 20px
+}
 
+section {
+    @include flex-position(center, center);
+
+    &:first-child {
+        margin-bottom: 20px;
+    }
+}
+
+.todos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal-slide {
+    &-enter-active, &-leave-active {
+        transition: transform .5s ease-in-out
+    }
+
+    &-enter-from {
+        transform: translateY(-100%)
+    }
+
+    &-leave-to {
+        transform: translateY(100%)
+    }
+}
+
+.todo-slide {
+    &-enter-active, &-leave-active {
+        transition: transform .5s ease-in-out
+    }
+
+    &-enter-from {
+        transform: translateX(-100%)
+    }
+
+    &-leave-to {
+        transform: translateX(100%)
+    }
+}
 </style>
