@@ -61,7 +61,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables.scss';
 main {
     gap: 20px
@@ -76,7 +76,7 @@ section {
 }
 
 .todo--first {
-    transition: transform .5s 1s !important;
+    transition: transform .5s 1s;
     transform: translateY(50vh) scale(2) !important;
 }
 
