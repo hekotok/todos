@@ -5,13 +5,30 @@
 }
 
 * {
-    font-family: 'zlusa';
+    font-family: 'zlusa'
 }
 
 html {
-    background: #252422;
+    background: #252422
 }
 
 main {
     padding: 30px;
+}
+
+::-webkit-scrollbar {
+    width: 8px
+}
+
+::-webkit-scrollbar-track {
+    background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+    background: #f24b4b;
+    border-radius: 5px
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #f2f0d8
 }
